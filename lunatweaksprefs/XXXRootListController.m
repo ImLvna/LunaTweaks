@@ -2,14 +2,38 @@
 #import "XXXRootListController.h"
 #import <spawn.h>
 
+
+UIBlurEffect* blur;
+UIVisualEffectView* blurView;
+
 @implementation XXXRootListController
+
+//credit litten
  -(void)respring {
 
-         pid_t pid;
-         const char* args[] = {"killall", "-9", "backboardd", NULL};
-         posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+    blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+    blurView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [blurView setFrame:self.view.bounds];
+    [blurView setAlpha:0.0];
+    [[self view] addSubview:blurView];
 
-      }
+    [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [blurView setAlpha:1.0];
+    } completion:^(BOOL finished) {
+        [self respringUtil];
+    }];
+
+}
+//credit litten
+- (void)respringUtil {
+    NSTask* task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/usr/bin/sbreload"];
+
+    [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=LunaTweaks"]];
+
+    [task launch];
+
+}
  -(void)userspace {
 
          pid_t pid;

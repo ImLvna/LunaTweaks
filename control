@@ -2,8 +2,8 @@ Package: com.luna.lunatweaks
 Name: LunaTweaks
 Version: 0.0.1
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Collection of lunas shite lole
 Maintainer: Luna
 Author: Luna
 Section: Tweaks
-Depends: mobilesubstrate (>= 0.9.5000)
+Depends: mobilesubstrate (>= 0.9.5000), ws.hbang.common (>= 1.17)

@@ -6,6 +6,7 @@ BUNDLE_NAME = lunatweaksprefs
 
 lunatweaksprefs_FILES = XXXRootListController.m
 lunatweaksprefs_FRAMEWORKS = UIKit
+lunatweaksprefs_EXTRA_FRAMEWORKS = Cephei
 lunatweaksprefs_PRIVATE_FRAMEWORKS = Preferences
 lunatweaksprefs_INSTALL_PATH = /Library/PreferenceBundles
 lunatweaksprefs_CFLAGS = -fobjc-arc
