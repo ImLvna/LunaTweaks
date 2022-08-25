@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+ <key>footerText</key>
+  <string>Requires Respring</string>
+  <key>footerAlignment</key>
+  <integer>1</integer>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.luna.lunatweaksprefs</string>
+			<key>key</key>
+			<string>LunaTweaksIsEnabled</string>
+			<key>label</key>
+			<string>Enabled</string>
+                        <key>PostNotification</key>
+                        <string>com.luna.lunatweaksprefs/settingschanged</string>
+		</dict>
+<dict>
+                        <key>cell</key>
+                        <string>PSGroupCell</string>
+<key>footerText</key>
+  <string>Requires settings app restart</string>
+  <key>footerAlignment</key>
+  <integer>1</integer>
+                </dict>
+                <dict>
+<key>cell</key>             <string>PSSwitchCell</string>
+            <key>default</key>          <true/>
+            <key>defaults</key>         <string>com.luna.lunatweaksprefs</string>
+            <key>key</key>              <string>screentimefamily</string>
+            <key>label</key>            <string>Show Family in ScreenTime Menu</string>
+            <key>PostNotification</key> <string>com.luna.lunatweaksprefs/settingschanged</string>
+</dict>
+<dict>
+                        <key>cell</key>
+                        <string>PSGroupCell</string>
+<key>footerText</key>
+  <string>Requires Respring</string>
+  <key>footerAlignment</key>
+  <integer>1</integer>
+                </dict>
+<dict>
+<key>cell</key>             <string>PSSwitchCell</string>
+            <key>default</key>          <false/>
+            <key>defaults</key>         <string>com.luna.lunatweaksprefs</string>
+            <key>key</key>              <string>screentimedisable</string>
+            <key>label</key>            <string>Disable Screentime</string>
+            <key>PostNotification</key> <string>com.luna.lunatweaksprefs/settingschanged</string>
+</dict>
+<dict>
+                        <key>cell</key>
+                        <string>PSGroupCell</string>
+                </dict>
+<dict>
+            <key>cell</key>             <string>PSButtonCell</string>
+            <key>label</key>            <string>Respring</string>
+            <key>action</key>           <string>respring</string>
+        </dict>
+   	</array>
+	<key>title</key>
+	<string>LunaTweaks</string>
+</dict>
+</plist>

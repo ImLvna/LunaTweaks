@@ -1,0 +1,29 @@
+#!/bin/bash
+TYPE="null"
+APP="null"
+for (( ;; ))
+do
+  tmpmode="$(activator current-mode)"
+  if [ "$tmpmode" != "$TYPE" ]; then
+    case $tmpmode in
+      lockscreen)
+        echo "[MODE]: Lockscreen"
+        ;;
+      springboard)
+        echo "[MODE]: Home Screen"
+        ;;
+      application)
+        echo "[MODE]: App"
+        ;;
+    esac
+    TYPE="$tmpmode"
+  fi
+  if [ "$tmpmode" == "application" ]; then
+    tmpapp="$(activator current-app)"
+    if [ "$tmpapp" != "$APP" ]; then
+      echo "[APP]: $tmpapp"
+    fi
+    APP="$tmpapp"
+  fi
+  sleep 0.5
+done
