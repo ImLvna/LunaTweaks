@@ -45,6 +45,15 @@ static BOOL scPinBypass = NO;
 }
 %end
 
+//make color purple if its disabled
+%hook _UIBatteryView
+- (UIColor *)fillColor {
+    if(isEnabled && scIsDisabled) {
+        return [UIColor systemPurpleColor];
+    }
+	return %orig;
+}
+%end
 
 
 
