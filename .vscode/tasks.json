@@ -4,19 +4,19 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "make",
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
-        }
-        {
-            "label": "buildpush",
-            "type": "shell",
             "command": "make do",
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "build-push",
+            "type": "shell",
+            "command": "make clean package && cp packages/*.deb ~/repo/static/debs && cd ~/repo && cd ${cwd}",
+            "group": {
+                "kind": "build",
+                "isDefault": false
             }
         }
     ]
