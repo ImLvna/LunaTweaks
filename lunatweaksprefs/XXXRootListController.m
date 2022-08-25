@@ -10,6 +10,13 @@
          posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
 
       }
+ -(void)userspace {
+
+         pid_t pid;
+         const char* args[] = {"sh", "-c", "echo alpine | sudo -S /usr/local/bin/rebootuserspace", NULL};
+         posix_spawn(&pid, "/usr/bin/sh", NULL, NULL, (char* const*)args, NULL);
+
+      }
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {

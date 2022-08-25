@@ -67,6 +67,11 @@
             <key>label</key>            <string>Respring</string>
             <key>action</key>           <string>respring</string>
         </dict>
+        <dict>
+            <key>cell</key>             <string>PSButtonCell</string>
+            <key>label</key>            <string>Userspace</string>
+            <key>action</key>           <string>userspace</string>
+        </dict>
    	</array>
 	<key>title</key>
 	<string>LunaTweaks</string>
