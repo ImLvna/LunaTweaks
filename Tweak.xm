@@ -31,25 +31,17 @@ static BOOL scPinBypass = NO;
 %hook SBDeviceApplicationScreenTimeLockoutViewProvider
 - (void)_activateIfPossible {
     if(!isEnabled && !scIsDisabled) {
-        NSLog(@"[LunaTweaks] (void)_activateIfPossible Called");
-        %orig;
+        return %orig;
     }
+    NSLog(@"[LunaTweaks] (void)_activateIfPossible Called");
 }
 %end
 %hook SBDeviceApplicationScreenTimeLockoutViewProvider
 - (void)_deactivateIfPossible {
     if(!isEnabled && !scIsDisabled) {
-        NSLog(@"[LunaTweaks] (void)_deactivateIfPossible Called");
-        %orig;
+        return %orig;
     }
-}
-%end
-%hook SBDeviceApplicationScreenTimeLockoutViewProvider
-- (void)_handleInstalledAppsChanged:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        NSLog(@"[LunaTweaks] (void)_handleInstalledAppsChanged:(id)arg1 Called");
-    }
-    %orig(arg1);
+    NSLog(@"[LunaTweaks] (void)_deactivateIfPossible Called");
 }
 %end
 
