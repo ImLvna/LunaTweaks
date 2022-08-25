@@ -30,7 +30,7 @@
                         <key>cell</key>
                         <string>PSGroupCell</string>
 <key>footerText</key>
-  <string>Requires settings app restart</string>
+  <string>Requires Respring</string>
   <key>footerAlignment</key>
   <integer>1</integer>
                 </dict>
@@ -38,8 +38,8 @@
 <key>cell</key>             <string>PSSwitchCell</string>
             <key>default</key>          <true/>
             <key>defaults</key>         <string>com.luna.lunatweaksprefs</string>
-            <key>key</key>              <string>screentimefamily</string>
-            <key>label</key>            <string>Show Family in ScreenTime Menu</string>
+            <key>key</key>              <string>screentimepin</string>
+            <key>label</key>            <string>[TESTING] Bypass Screentime Pin</string>
             <key>PostNotification</key> <string>com.luna.lunatweaksprefs/settingschanged</string>
 </dict>
 <dict>

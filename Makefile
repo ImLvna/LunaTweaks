@@ -1,5 +1,5 @@
 TARGET := iphone:clang:latest:7.0
-INSTALL_TARGET_PROCESSES = SpringBoard
+INSTALL_TARGET_PROCESSES = SpringBoard backboardd
 #if on lan
 #THEOS_DEVICE_IP = 192.168.1.183
 #if connected over ssh tunnell
