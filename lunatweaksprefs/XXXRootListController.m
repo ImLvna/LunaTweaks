@@ -24,6 +24,21 @@ UIVisualEffectView* blurView;
     }];
 
 }
+-(void)userspace {
+
+    blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+    blurView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [blurView setFrame:self.view.bounds];
+    [blurView setAlpha:0.0];
+    [[self view] addSubview:blurView];
+
+    [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [blurView setAlpha:1.0];
+    } completion:^(BOOL finished) {
+        [self userspaceUtil];
+    }];
+
+}
 //credit litten
 - (void)respringUtil {
     NSTask* task = [[NSTask alloc] init];
@@ -34,7 +49,7 @@ UIVisualEffectView* blurView;
     [task launch];
 
 }
- -(void)userspace {
+ -(void)userspaceUtil {
 
          pid_t pid;
          const char* args[] = {"sh", "-c", "echo alpine | sudo -S /usr/local/bin/rebootuserspace", NULL};
