@@ -2,12 +2,80 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
 #import <Foundation/NSUserDefaults+Private.h>
+#import "AppShortcuts.h"
 
 static BOOL isEnabled = YES;
 static BOOL scShowFamily = YES;
 static BOOL scIsDisabled = NO;
 static BOOL scPinBypass = NO;
 
+
+//function to toggle always allowed
+static void toggleAlwaysAllowed() {
+    NSLog(@"toggleAlwaysAllowed");
+}
+
+@interface SBSApplicationShortcutIcon : NSObject
+@end
+@interface SBSApplicationShortcutItem : NSObject
+@property (nonatomic, retain) NSString *type;
+@property (nonatomic, copy) NSString *localizedTitle;
+@property (nonatomic, copy) SBSApplicationShortcutIcon *icon;
+- (void)setIcon:(SBSApplicationShortcutIcon *)arg1;
+@end
+@interface SBSApplicationShortcutCustomImageIcon : SBSApplicationShortcutIcon
+- (id)initWithImagePNGData:(id)arg1;
+@end
+
+
+%hook SBIconView
+
+
+- (NSArray *)applicationShortcutItems {
+	if([self isFolderIcon]) return %orig;
+    if(!isEnabled) return %orig;
+
+	// Add shortcut item to activate editor
+	// I found this really cool gist to allow me to do this, tyvm to the author <3
+	// Link: https://gist.github.com/MTACS/8e26c4f430b27d6a1d2a11f0a828f250
+
+    //i took this code from atria
+    //https://github.com/ren7995/Atria/blob/3d72a00dd25f9c6ff5e59250974ce87c28af8aef/Hooks/IconView.xm
+    
+	NSMutableArray *items = [%orig mutableCopy];
+	if(!items) items = [NSMutableArray new];
+
+
+    SBSApplicationShortcutItem *item = [[objc_getClass("SBSApplicationShortcutItem") alloc] init];
+	item.localizedTitle = @"Toggle Always Allowed";
+	item.type = @"com.luna.lunatweaks.togglealways";
+
+	// SFSymbols
+	UIImage *image = [UIImage systemImageNamed:@"hourglass"];
+
+	// Tint our image
+	image = [image imageWithTintColor:[UIColor labelColor]];
+
+	// Get data respresentation of the image
+	NSData *iconData = UIImagePNGRepresentation(image);
+	SBSApplicationShortcutCustomImageIcon *icon = [[objc_getClass("SBSApplicationShortcutCustomImageIcon") alloc] initWithImagePNGData:iconData];
+	[item setIcon:icon];
+
+
+	[items addObject:item];
+
+	return items;
+}
+
++ (void)activateShortcut:(SBSApplicationShortcutItem *)item withBundleIdentifier:(NSString *)bundleID forIconView:(SBIconView *)iconView {
+	if([[item type] isEqualToString:@"com.luna.lunatweaks.togglealways"]) {
+		toggleAlwaysAllowed();
+	} else {
+		%orig;
+	}
+}
+
+%end
 
 
 %hook SBNotificationBannerDestination
