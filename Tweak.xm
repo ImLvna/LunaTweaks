@@ -8,12 +8,12 @@ static BOOL isEnabled = YES;
 static BOOL scShowFamily = YES;
 static BOOL scIsDisabled = NO;
 static BOOL scPinBypass = NO;
+static BOOL isDebug = NO;
 
 
 //function to toggle always allowed
-static void toggleAlwaysAllowed() {
+static void toggleAlwaysAllowed(NSString *bundleID) {
     NSLog(@"toggleAlwaysAllowed");
-    %init(Class)
 }
 
 @interface SBSApplicationShortcutIcon : NSObject
@@ -29,12 +29,12 @@ static void toggleAlwaysAllowed() {
 @end
 
 
+%group debug
 %hook SBIconView
 
 
 - (NSArray *)applicationShortcutItems {
 	if([self isFolderIcon]) return %orig;
-    if(!isEnabled) return %orig;
 
 	// Add shortcut item to activate editor
 	// I found this really cool gist to allow me to do this, tyvm to the author <3
@@ -75,183 +75,93 @@ static void toggleAlwaysAllowed() {
 		%orig;
 	}
 }
+%end
+%end
+
+
+%group screentime
+%hook SBIconView
+
 
 
 - (bool)allowsBlockedForScreenTimeExpiration {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 - (void)setAllowsBlockedForScreenTimeExpiration:(bool)arg1 {
-    if(isEnabled && scIsDisabled) {
-        arg1 = 0;
-    }
-    return %orig;
+    arg1 = 0;
 } 
 %end
 
 
 %hook SBNotificationBannerDestination
 - (bool)_isBundleIdentifierBlockedForScreenTimeExpiration:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        NSLog(@"[LunaTweaks] (bool)_isBundleIdentifierBlockedForScreenTimeExpiration:(id)arg1 Called");
-        arg1 = NULL;
-    }
+    arg1 = NULL;
     return %orig;
 }
 - (BOOL)_isContentSuppressedForNotificationRequest:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        NSLog(@"[LunaTweaks] (BOOL)_isContentSuppressedForNotificationRequest:(id)arg1 Called");
-        arg1 = NULL;
-    }
+    arg1 = NULL;
     return %orig;
 }
 - (bool)_isBundleIdentifierBlockedForCommunicationPolicy:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 %end
 %hook SBDeviceApplicationScreenTimeLockoutViewProvider
 - (void)_activateIfPossible {
-    if(!isEnabled && !scIsDisabled) {
-        return %orig;
-    }
-    NSLog(@"[LunaTweaks] (void)_activateIfPossible Called");
+    return;
+    
 }
 - (void)_deactivateIfPossible {
-    if(!isEnabled && !scIsDisabled) {
-        return %orig;
-    }
-    NSLog(@"[LunaTweaks] (void)_deactivateIfPossible Called");
+    return;
+    
 }
 %end
 
 //make color purple if its disabled
 %hook _UIBatteryView
 - (UIColor *)fillColor {
-    if(isEnabled && scIsDisabled) {
-        return [UIColor systemPurpleColor];
-    }
-	return %orig;
+    return [UIColor systemPurpleColor];
 }
 %end
 
 
 
-%hook STPINController
-- (bool)_isPINValid:(id)arg1 {
-    if(isEnabled && scPinBypass) {
-        return 1;
-    }
-    return %orig;
-} 
-- (bool)_authenticateWithPIN:(id)arg1 forUser:(id)arg2 allowPasscodeRecovery:(bool)arg3 error:(id*)arg4 {
-    if(isEnabled && scPinBypass) {
-        return 1;
-    }
-    return %orig;
-} 
-%end
-
-%hook STRestrictionsPINController
-- (bool)validatePIN:(id)arg1 {
-    if(isEnabled && scPinBypass) {
-        return 1;
-    }
-    return %orig;
-} 
-%end
-
-%hook STPINListViewController
-- (bool)validatePIN:(id)arg1 forPINController:(id)arg2 {
-    if(isEnabled && scPinBypass) {
-        return 1;
-    }
-    return %orig;
-} 
-%end
-
-%hook STLockoutRestrictionsPINController
-+ (bool)isRestrictionsPasscodeSet {
-    if(isEnabled && scPinBypass) {
-        return 0;
-    }
-    return %orig;
-} 
-%end
-
-%hook STLockoutPolicyController
-- (bool)shouldAllowOneMoreMinute {
-    if(isEnabled && scPinBypass) {
-        return 1;
-    }
-    return %orig;
-} 
-%end
-
-
 %hook SBApplication
 - (bool)isTimedOutForIcon:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 %end
 
 %hook SBMainFluidSwitcherLiveContentOverlayCoordinator
 - (bool)_layoutStateContainsElementBlockedForScreenTimeExpiration:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 %end
 
 %hook SBCommunicationPolicyManager
 - (bool)shouldScreenTimeSuppressNotificationsForBundleIdentifier:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 %end
 
 %hook SBNCAlertingController
 - (bool)_shouldScreenTimeSuppressNotificationsForBundleIdentifier:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 }
 - (bool)_shouldScreenTimeSuppressNotificationRequest:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 - (bool)_isBundleIdentifierBlockedForScreenTimeExpiration:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 - (bool)_isBundleIdentifierBlockedForCommunicationPolicy:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 %end
 
 %hook SBTestAutomationService
 - (void)systemServiceServer:(id)arg1 client:(id)arg2 setApplicationBundleIdentifier:(id)arg3 blockedForScreenTime:(bool)arg4 {
-    if(isEnabled && scIsDisabled) {
-        arg4 = 0;
-    }
+    arg4 = 0;
     return %orig;
 } 
 %end
@@ -260,54 +170,75 @@ static void toggleAlwaysAllowed() {
 
 %hook SBFloatingFluidSwitcherLiveContentOverlayCoordinator
 - (bool)_isLayoutElementBlockedForScreenTimeExpiration:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 %end
 
 %hook _SBDMPolicyTestAppInfo
 - (bool)isBlockedForScreenTimeExpiration {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 %end
 
 %hook SBScreenTimeTestRecipe
 + (void)_setApplicationBundleIdentifiers:(id)arg1 blockedForScreenTimeExpiration:(bool)arg2 {
-    if(isEnabled && scIsDisabled) {
-        arg2 = 0;
-    }
+    arg2 = 0;
     return %orig;
 } 
 %end
 
 %hook SBDashBoardApplicationInformer
 - (bool)_isBundleIdentifierBlockedForScreenTimeExpiration:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
+    return 0;
 } 
 %end
 
 
+%end
 
+%group pinBypass
+%hook STPINController
+- (bool)_isPINValid:(id)arg1 {
+    return 1;
+} 
+- (bool)_authenticateWithPIN:(id)arg1 forUser:(id)arg2 allowPasscodeRecovery:(bool)arg3 error:(id*)arg4 {
+    return 1;
+} 
+%end
 
+%hook STRestrictionsPINController
+- (bool)validatePIN:(id)arg1 {
+    return 1;
+} 
+%end
+
+%hook STPINListViewController
+- (bool)validatePIN:(id)arg1 forPINController:(id)arg2 {
+    return 1;
+} 
+%end
+
+%hook STLockoutRestrictionsPINController
++ (bool)isRestrictionsPasscodeSet {
+    return 0;
+} 
+%end
+
+%hook STLockoutPolicyController
+- (bool)shouldAllowOneMoreMinute {
+    return 1;
+} 
+%end
+%end
+
+%group family
 
 %hook STUser
 - (bool)isParent {
-    if(isEnabled && scShowFamily) {
-        NSLog(@"[LunaTweaks] (bool)isParent Called");
-        return 1;
-    }
-    return %orig;
+    return 1;
 }
 %end
-
+%end
 
 static void loadPrefs()
 {
@@ -318,10 +249,18 @@ static void loadPrefs()
         scShowFamily = ( [prefs objectForKey:@"screentimefamily"] ? [[prefs objectForKey:@"screentimefamily"] boolValue ] : scShowFamily );
         scIsDisabled = ( [prefs objectForKey:@"screentimedisable"] ? [[prefs objectForKey:@"screentimedisable"] boolValue ] : scIsDisabled );
         scPinBypass = ( [prefs objectForKey:@"screentimepin"] ? [[prefs objectForKey:@"screentimepin"] boolValue ] : scPinBypass );
+        isDebug = ( [prefs objectForKey:@"debug"] ? [[prefs objectForKey:@"debug"] boolValue ] : isDebug );
         NSLog(@"[LunaTweaks] Settings Updated");
         NSLog(@"[LunaTweaks] isEnabled: %@", isEnabled ? @"true" : @"false");
         NSLog(@"[LunaTweaks] scShowFamily: %@", scShowFamily ? @"true" : @"false");
         NSLog(@"[LunaTweaks] scIsDisabled: %@", scIsDisabled ? @"true" : @"false");
+        NSLog(@"[LunaTweaks] scPinBypass: %@", scPinBypass ? @"true" : @"false");
+        NSLog(@"[LunaTweaks] isDebug: %@", isDebug ? @"true" : @"false");
+        if(!isEnabled) return;
+        if(scIsDisabled) %init(screentime);
+        if(scPinBypass) %init(pinBypass);
+        if(scShowFamily) %init(family);
+        if(isDebug) %init(debug);
     }
 }
 
