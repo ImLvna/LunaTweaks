@@ -7,10 +7,10 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
- <key>footerText</key>
-  <string>Requires Respring</string>
-  <key>footerAlignment</key>
-  <integer>1</integer>
+			<key>footerText</key>
+			<string>Requires Respring</string>
+			<key>footerAlignment</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -23,72 +23,96 @@
 			<string>LunaTweaksIsEnabled</string>
 			<key>label</key>
 			<string>Enabled</string>
-                        <key>PostNotification</key>
-                        <string>com.luna.lunatweaksprefs/settingschanged</string>
+			<key>PostNotification</key>
+			<string>com.luna.lunatweaksprefs/settingschanged</string>
 		</dict>
-<dict>
-                        <key>cell</key>
-                        <string>PSGroupCell</string>
-<key>footerText</key>
-  <string>Requires Respring</string>
-  <key>footerAlignment</key>
-  <integer>1</integer>
-                </dict>
-                <dict>
-<key>cell</key>             <string>PSSwitchCell</string>
-            <key>default</key>          <true/>
-            <key>defaults</key>         <string>com.luna.lunatweaksprefs</string>
-            <key>key</key>              <string>screentimepin</string>
-            <key>label</key>            <string>[TESTING] Bypass Screentime Pin</string>
-            <key>PostNotification</key> <string>com.luna.lunatweaksprefs/settingschanged</string>
-</dict>
-<dict>
-                        <key>cell</key>
-                        <string>PSGroupCell</string>
-<key>footerText</key>
-  <string>Requires Respring</string>
-  <key>footerAlignment</key>
-  <integer>1</integer>
-                </dict>
-<dict>
-<key>cell</key>             <string>PSSwitchCell</string>
-            <key>default</key>          <false/>
-            <key>defaults</key>         <string>com.luna.lunatweaksprefs</string>
-            <key>key</key>              <string>screentimedisable</string>
-            <key>label</key>            <string>Disable Screentime</string>
-            <key>PostNotification</key> <string>com.luna.lunatweaksprefs/settingschanged</string>
-</dict>
-<dict>
-                        <key>cell</key>
-                        <string>PSGroupCell</string>
-<key>footerText</key>
-  <string>Requires Respring</string>
-  <key>footerAlignment</key>
-  <integer>1</integer>
-                </dict>
-                <dict>
-<key>cell</key>             <string>PSSwitchCell</string>
-            <key>default</key>          <false/>
-            <key>defaults</key>         <string>com.luna.lunatweaksprefs</string>
-            <key>key</key>              <string>debug</string>
-            <key>label</key>            <string>[TESTING] Debug</string>
-            <key>PostNotification</key> <string>com.luna.lunatweaksprefs/settingschanged</string>
-</dict>
-<dict>
-                        <key>cell</key>
-                        <string>PSGroupCell</string>
-                </dict>
-<dict>
-            <key>cell</key>             <string>PSButtonCell</string>
-            <key>label</key>            <string>Respring</string>
-            <key>action</key>           <string>respring</string>
-        </dict>
-        <dict>
-            <key>cell</key>             <string>PSButtonCell</string>
-            <key>label</key>            <string>Userspace</string>
-            <key>action</key>           <string>userspace</string>
-        </dict>
-   	</array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Requires Respring</string>
+			<key>footerAlignment</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.luna.lunatweaksprefs</string>
+			<key>key</key>
+			<string>screentimepin</string>
+			<key>label</key>
+			<string>[TESTING] Bypass Screentime Pin</string>
+			<key>PostNotification</key>
+			<string>com.luna.lunatweaksprefs/settingschanged</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Requires Respring</string>
+			<key>footerAlignment</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.luna.lunatweaksprefs</string>
+			<key>key</key>
+			<string>screentimedisable</string>
+			<key>label</key>
+			<string>Disable Screentime</string>
+			<key>PostNotification</key>
+			<string>com.luna.lunatweaksprefs/settingschanged</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Requires Respring</string>
+			<key>footerAlignment</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.luna.lunatweaksprefs</string>
+			<key>key</key>
+			<string>debug</string>
+			<key>label</key>
+			<string>[TESTING] Debug</string>
+			<key>PostNotification</key>
+			<string>com.luna.lunatweaksprefs/settingschanged</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Respring</string>
+			<key>action</key>
+			<string>respring</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Userspace</string>
+			<key>action</key>
+			<string>userspace</string>
+		</dict>
+	</array>
 	<key>title</key>
 	<string>LunaTweaks</string>
 </dict>

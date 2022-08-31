@@ -14,6 +14,8 @@ LunaTweaks_PRIVATE_FRAMEWORKS = SpringBoardServices
 LunaTweaks_FILES = Tweak.xm
 LunaTweaks_CFLAGS = -fobjc-arc
 
+LunaTweaks_EXTRA_FRAMEWORKS = Cephei
+
 include $(THEOS_MAKE_PATH)/tweak.mk
 SUBPROJECTS += lunatweaksprefs
 SUBPROJECTS += rebootuserspace
