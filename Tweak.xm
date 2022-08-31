@@ -13,6 +13,7 @@ static BOOL scPinBypass = NO;
 //function to toggle always allowed
 static void toggleAlwaysAllowed() {
     NSLog(@"toggleAlwaysAllowed");
+    %init(Class)
 }
 
 @interface SBSApplicationShortcutIcon : NSObject
@@ -69,12 +70,25 @@ static void toggleAlwaysAllowed() {
 
 + (void)activateShortcut:(SBSApplicationShortcutItem *)item withBundleIdentifier:(NSString *)bundleID forIconView:(SBIconView *)iconView {
 	if([[item type] isEqualToString:@"com.luna.lunatweaks.togglealways"]) {
-		toggleAlwaysAllowed();
+		toggleAlwaysAllowed(bundleID);
 	} else {
 		%orig;
 	}
 }
 
+
+- (bool)allowsBlockedForScreenTimeExpiration {
+    if(isEnabled && scIsDisabled) {
+        return 0;
+    }
+    return %orig;
+} 
+- (void)setAllowsBlockedForScreenTimeExpiration:(bool)arg1 {
+    if(isEnabled && scIsDisabled) {
+        arg1 = 0;
+    }
+    return %orig;
+} 
 %end
 
 
@@ -86,8 +100,6 @@ static void toggleAlwaysAllowed() {
     }
     return %orig;
 }
-%end
-%hook SBNotificationBannerDestination
 - (BOOL)_isContentSuppressedForNotificationRequest:(id)arg1 {
     if(isEnabled && scIsDisabled) {
         NSLog(@"[LunaTweaks] (BOOL)_isContentSuppressedForNotificationRequest:(id)arg1 Called");
@@ -95,6 +107,12 @@ static void toggleAlwaysAllowed() {
     }
     return %orig;
 }
+- (bool)_isBundleIdentifierBlockedForCommunicationPolicy:(id)arg1 {
+    if(isEnabled && scIsDisabled) {
+        return 0;
+    }
+    return %orig;
+} 
 %end
 %hook SBDeviceApplicationScreenTimeLockoutViewProvider
 - (void)_activateIfPossible {
@@ -103,8 +121,6 @@ static void toggleAlwaysAllowed() {
     }
     NSLog(@"[LunaTweaks] (void)_activateIfPossible Called");
 }
-%end
-%hook SBDeviceApplicationScreenTimeLockoutViewProvider
 - (void)_deactivateIfPossible {
     if(!isEnabled && !scIsDisabled) {
         return %orig;
@@ -194,11 +210,20 @@ static void toggleAlwaysAllowed() {
         return 0;
     }
     return %orig;
-} 
-%end
-
-%hook SBNCAlertingController
+}
 - (bool)_shouldScreenTimeSuppressNotificationRequest:(id)arg1 {
+    if(isEnabled && scIsDisabled) {
+        return 0;
+    }
+    return %orig;
+} 
+- (bool)_isBundleIdentifierBlockedForScreenTimeExpiration:(id)arg1 {
+    if(isEnabled && scIsDisabled) {
+        return 0;
+    }
+    return %orig;
+} 
+- (bool)_isBundleIdentifierBlockedForCommunicationPolicy:(id)arg1 {
     if(isEnabled && scIsDisabled) {
         return 0;
     }
@@ -215,33 +240,7 @@ static void toggleAlwaysAllowed() {
 } 
 %end
 
-%hook SBNCAlertingController
-- (bool)_isBundleIdentifierBlockedForScreenTimeExpiration:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
-} 
-%end
 
-%hook SBNCAlertingController
-- (bool)_isBundleIdentifierBlockedForCommunicationPolicy:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
-} 
-%end
-
-
-%hook SBNotificationBannerDestination
-- (bool)_isBundleIdentifierBlockedForCommunicationPolicy:(id)arg1 {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
-} 
-%end
 
 %hook SBFloatingFluidSwitcherLiveContentOverlayCoordinator
 - (bool)_isLayoutElementBlockedForScreenTimeExpiration:(id)arg1 {
@@ -278,25 +277,6 @@ static void toggleAlwaysAllowed() {
     return %orig;
 } 
 %end
-
-%hook SBIconView
-- (bool)allowsBlockedForScreenTimeExpiration {
-    if(isEnabled && scIsDisabled) {
-        return 0;
-    }
-    return %orig;
-} 
-%end
-
-%hook SBIconView
-- (void)setAllowsBlockedForScreenTimeExpiration:(bool)arg1 {
-    if(isEnabled && scIsDisabled) {
-        arg1 = 0;
-    }
-    return %orig;
-} 
-%end
-
 
 
 
