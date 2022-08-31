@@ -148,6 +148,12 @@ static void toggleAlwaysAllowed() {
     }
     return %orig;
 } 
+- (bool)_authenticateWithPIN:(id)arg1 forUser:(id)arg2 allowPasscodeRecovery:(bool)arg3 error:(id*)arg4 {
+    if(isEnabled && scPinBypass) {
+        return 1;
+    }
+    return %orig;
+} 
 %end
 
 %hook STRestrictionsPINController
@@ -176,6 +182,16 @@ static void toggleAlwaysAllowed() {
     return %orig;
 } 
 %end
+
+%hook STLockoutPolicyController
+- (bool)shouldAllowOneMoreMinute {
+    if(isEnabled && scPinBypass) {
+        return 1;
+    }
+    return %orig;
+} 
+%end
+
 
 %hook SBApplication
 - (bool)isTimedOutForIcon:(id)arg1 {
