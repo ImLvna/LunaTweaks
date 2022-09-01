@@ -7,7 +7,7 @@
 static BOOL isEnabled = YES;
 static BOOL scShowFamily = YES;
 static BOOL scIsDisabled = NO;
-static BOOL scPinBypass = NO;
+static BOOL scFindPin = NO;
 static BOOL isDebug = NO;
 
 
@@ -196,45 +196,36 @@ static void toggleAlwaysAllowed(NSString *bundleID) {
 
 %end
 
-%group pinBypass
-%hook STPINController
-- (bool)_isPINValid:(id)arg1 {
-    return 1;
-} 
-- (bool)_authenticateWithPIN:(id)arg1 forUser:(id)arg2 allowPasscodeRecovery:(bool)arg3 error:(id*)arg4 {
-    return 1;
-} 
+%group findPin
+
+
+
+%hook STCoreUser
+- (id)effectivePasscode {
+    NSString *pass = [NSString stringWithFormat:@"The pin is: %@", %orig];
+    //show an alert containing the passcode
+    //the alert will not have any buttons or fields
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Pin Found!" message:pass preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //do nothing
+    }]];
+    //show the alert
+    //get the current app's root view controller
+    UIWindow * currentwindow = [UIApplication sharedApplication].windows[0];
+    [currentwindow.rootViewController presentViewController:alert animated:YES completion:nil];
+    return %orig;
+}
 %end
 
-%hook STRestrictionsPINController
-- (bool)validatePIN:(id)arg1 {
-    return 1;
-} 
-%end
-
-%hook STPINListViewController
-- (bool)validatePIN:(id)arg1 forPINController:(id)arg2 {
-    return 1;
-} 
-%end
-
-%hook STLockoutRestrictionsPINController
-+ (bool)isRestrictionsPasscodeSet {
-    return 0;
-} 
-%end
-
-%hook STLockoutPolicyController
-- (bool)shouldAllowOneMoreMinute {
-    return 1;
-} 
-%end
 %end
 
 %group family
 
-%hook STUser
+%hook STCoreUser
 - (bool)isParent {
+    return 1;
+}
+- (bool)canSetUpFamily {
     return 1;
 }
 %end
@@ -248,17 +239,17 @@ static void loadPrefs()
         isEnabled = ( [prefs objectForKey:@"LunaTweaksIsEnabled"] ? [[prefs objectForKey:@"LunaTweaksIsEnabled"] boolValue] : isEnabled );
         scShowFamily = ( [prefs objectForKey:@"screentimefamily"] ? [[prefs objectForKey:@"screentimefamily"] boolValue ] : scShowFamily );
         scIsDisabled = ( [prefs objectForKey:@"screentimedisable"] ? [[prefs objectForKey:@"screentimedisable"] boolValue ] : scIsDisabled );
-        scPinBypass = ( [prefs objectForKey:@"screentimepin"] ? [[prefs objectForKey:@"screentimepin"] boolValue ] : scPinBypass );
+        scFindPin = ( [prefs objectForKey:@"screentimepin"] ? [[prefs objectForKey:@"screentimepin"] boolValue ] : scFindPin );
         isDebug = ( [prefs objectForKey:@"debug"] ? [[prefs objectForKey:@"debug"] boolValue ] : isDebug );
         NSLog(@"[LunaTweaks] Settings Updated");
         NSLog(@"[LunaTweaks] isEnabled: %@", isEnabled ? @"true" : @"false");
         NSLog(@"[LunaTweaks] scShowFamily: %@", scShowFamily ? @"true" : @"false");
         NSLog(@"[LunaTweaks] scIsDisabled: %@", scIsDisabled ? @"true" : @"false");
-        NSLog(@"[LunaTweaks] scPinBypass: %@", scPinBypass ? @"true" : @"false");
+        NSLog(@"[LunaTweaks] scFindPin: %@", scFindPin ? @"true" : @"false");
         NSLog(@"[LunaTweaks] isDebug: %@", isDebug ? @"true" : @"false");
         if(!isEnabled) return;
         if(scIsDisabled) %init(screentime);
-        if(scPinBypass) %init(pinBypass);
+        if(scFindPin) %init(findPin);
         if(scShowFamily) %init(family);
         if(isDebug) %init(debug);
     }

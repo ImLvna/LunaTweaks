@@ -44,7 +44,7 @@
 			<key>key</key>
 			<string>screentimepin</string>
 			<key>label</key>
-			<string>[TESTING] Bypass Screentime Pin</string>
+			<string>Find Screentime Pin</string>
 			<key>PostNotification</key>
 			<string>com.luna.lunatweaksprefs/settingschanged</string>
 		</dict>

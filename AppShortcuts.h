@@ -12,3 +12,11 @@
 @property (nonatomic, strong) id icon;
 - (BOOL)isFolderIcon;
 @end
+
+
+
+@class UIWindow;
+
+@interface PreferencesAppController : UIApplication
+@property(nonatomic, readonly) NSArray<UIWindow *> *windows;
+@end
