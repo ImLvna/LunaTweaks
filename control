@@ -3,7 +3,7 @@ Name: LunaTweaks
 Version: 0.0.2
 Architecture: iphoneos-arm
 Description: Collection of lunas shite lole
-Maintainer: Luna
-Author: Luna
+Maintainer: Luna <imlvnaa@gmail.com>
+Author: Luna <imlvnaa@gmail.com>
 Section: Tweaks
 Depends: mobilesubstrate (>= 0.9.5000), ws.hbang.common (>= 1.17)
